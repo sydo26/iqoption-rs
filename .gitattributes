@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+*       text=auto
+
+
+*.rs    text eol=lf merge=union
+*.debug text eol=lf merge=union

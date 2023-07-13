@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "serayuzgur.crates",
+    "rust-lang.rust-analyzer",
+    "bungcip.better-toml",
+    "editorconfig.editorconfig"
+  ]
+}
