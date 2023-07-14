@@ -14,7 +14,7 @@ env:
 jobs:
   test:
     name: Test (${{ matrix.os }}) - Rust ${{ matrix.rust }}
-    needs: [fmt, check, ]
+    needs: [fmt, check]
     strategy:
       fail-fast: false
       matrix:
@@ -37,6 +37,16 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v3
 
+      # Use cache to speed up builds
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            target
+            Cargo.lock
+          key: test-${{ matrix.rust }}-${{ matrix.os }}-rustc-v1
+
       # Install Rust toolchain
       - name: Install Rust (${{ matrix.rust }})
         uses: actions-rs/toolchain@v1
@@ -56,6 +66,16 @@ jobs:
     steps:
       # Checkout the repository
       - uses: actions/checkout@v3
+
+      # Use cache to speed up builds
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            target
+            Cargo.lock
+          key: check-license-ubuntu-v1
 
       # Install Rust toolchain
       - name: Install Rust
