@@ -58,7 +58,9 @@ jobs:
         id: metadata
         run: |
           cargo metadata --no-deps --format-version 1 |
-              jq -r '"msrv=" + (.packages[] | select(.name == "http")).rust_version' >> $GITHUB_OUTPUT
+              jq -r '"msrv=" + (.packages[] | select(.name == "iqoption-rs")).rust_version' >> $GITHUB_OUTPUT
+
+      # Install Rust toolchain
       - name: Install Rust (${{ steps.metadata.outputs.msrv }})
         uses: dtolnay/rust-toolchain@master
         with:
