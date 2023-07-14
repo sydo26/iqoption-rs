@@ -1,4 +1,4 @@
-# HTTP
+# IQOPTION API - In Rust
 
 An abstraction of IQ Options API calls in a Rust library.
 
