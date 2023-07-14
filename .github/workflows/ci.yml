@@ -1,0 +1,69 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+env:
+  RUST_BACKTRACE: full
+
+jobs:
+  test:
+    name: Test ${{ matrix.rust }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+          - beta
+          - stable
+
+        include:
+          - rust: nightly
+            benches: true
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Install Rust toolchain
+      - name: Install Rust (${{ matrix.rust }})
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+
+      # Execute tests
+      - name: Test
+        run: cargo test
+
+      # Execute benchmarks
+      - name: Test all benches
+        if: matrix.benches
+        run: cargo test --benches ${{ matrix.features }}
+
+  msrv:
+    name: Check MSRV (Minimum Supported Rust Version)
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Get MSRV from package metadata
+      - name: Get MSRV from package metadata
+        id: metadata
+        run: |
+          cargo metadata --no-deps --format-version 1 |
+              jq -r '"msrv=" + (.packages[] | select(.name == "http")).rust_version' >> $GITHUB_OUTPUT
+      - name: Install Rust (${{ steps.metadata.outputs.msrv }})
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.metadata.outputs.msrv }}
+
+      # Execute cargo check in iqoption-rs crate
+      - name: Cargo check
+        run: cargo check -p iqoption-rs
