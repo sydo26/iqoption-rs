@@ -59,6 +59,10 @@ jobs:
         with:
           toolchain: stable
 
+      # Install cargo-deny
+      - name: Install cargo-deny
+        run: cargo install cargo-deny
+
       # Execute deny check
       - name: Deny check
         run: cargo deny check
