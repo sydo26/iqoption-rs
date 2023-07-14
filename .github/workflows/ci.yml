@@ -14,7 +14,7 @@ env:
 jobs:
   test:
     name: Test (${{ matrix.os }}) - Rust ${{ matrix.rust }}
-    needs: [fmt, check]
+    needs: [fmt, check, ]
     strategy:
       fail-fast: false
       matrix:
@@ -116,7 +116,7 @@ jobs:
 
       # Use cache to speed up builds
       - name: Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cargo/
