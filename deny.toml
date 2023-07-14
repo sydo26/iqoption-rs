@@ -1,37 +1,60 @@
+targets = []
+
+
 [advisories]
 db-path = "~/.cargo/advisory-db"
 db-urls = ["https://github.com/rustsec/advisory-db"]
 vulnerability = "deny"
-unmaintained = "deny"
-yanked = "deny"
-notice = "deny"
+unmaintained = "warn"
+yanked = "warn"
+notice = "warn"
 ignore = []
+
 
 [licenses]
 unlicensed = "deny"
-copyleft = "deny"
 allow = [
-    "MIT",
-    "Apache-2.0",
-    "ISC",
-    "Zlib",
-    "0BSD",
-    "CC0-1.0",
+  "MIT",
+  "Apache-2.0"
 ]
-exceptions = [
-    { name = "unicode-ident", allow = ["Unicode-DFS-2016"] },
-]
+deny = []
+copyleft = "deny"
+allow-osi-fsf-free = "neither"
 default = "deny"
+confidence-threshold = 0.8
+exceptions = []
+
+[licenses.private]
+ignore = false
+registries = []
+
 
 [bans]
-multiple-versions = "deny"
-wildcards = "deny"
+multiple-versions = "allow"
+wildcards = "allow"
 highlight = "all"
-# Certain crates/versions that will be skipped when doing duplicate detection.
-skip = []
+allow = [
+  #{ name = "ansi_term", version = "=0.11.0" },
+]
+deny = [
+  
+]
+
+skip = [
+  #{ name = "ansi_term", version = "=0.11.0" },
+]
+
+skip-tree = [
+  #{ name = "ansi_term", version = "=0.11.0", depth = 20 },
+]
 
 [sources]
-unknown-registry = "deny"
-unknown-git = "deny"
+unknown-registry = "warn"
+unknown-git = "warn"
 allow-registry = ["https://github.com/rust-lang/crates.io-index"]
 allow-git = []
+
+[sources.allow-org]
+github = []
+gitlab = []
+bitbucket = []
