@@ -1,4 +1,4 @@
-# IQOPTION API - In Rust
+# IQ Option API - In Rust
 
 An abstraction of IQ Options API calls in a Rust library.
 
