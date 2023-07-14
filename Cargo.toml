@@ -15,8 +15,11 @@ repository = "https://github.com/sydo26/iqoption-rs"
 rust-version = "1.70.0"
 authors = ["sydo26 <sydoafk@gmail.com>"]
 
+[workspace]
+members = ["bin/hooks/*"]
+
 [dependencies]
 
 
 [dev-dependencies]
-cargo-husky = { version = "1.5.0", default-features = false, features = ["user-hooks"]}
+rusty-hook = "^0.11.2"
