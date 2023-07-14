@@ -16,5 +16,5 @@ disallowed-names = [
   "isize",
   "usize",
 ]
-msrv = "1.69"
+msrv = "1.70.0"
 type-complexity-threshold = 25000
