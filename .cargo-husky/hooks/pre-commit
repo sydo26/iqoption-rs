@@ -7,6 +7,3 @@ cargo fmt --all -- --check
 
 echo '+cargo clippy'
 cargo clippy
-
-echo '+cargo check'
-cargo check
