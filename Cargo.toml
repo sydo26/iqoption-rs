@@ -8,7 +8,15 @@ keywords = ["iq", "option", "rust", "api", "wrapper", "iqoption-rs", "library", 
 description = """
 A scrapper that abstracts the IQ Option API calls into a Rust package.
 """
-exclude = []
+exclude = [
+    ".gitignore",
+    ".gitattributes",
+    "rustfmt.toml",
+    ".github",
+    ".git",
+    "target",
+    "bin",
+]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/sydo26/iqoption-rs"
