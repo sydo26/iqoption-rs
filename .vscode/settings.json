@@ -1,0 +1,19 @@
+{
+    "rust-analyzer.linkedProjects": [],
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.rustfmt.rangeFormatting.enable": true,
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/bk": true,
+        "**/target": true
+    },
+    "git.ignoreLimitWarning": true,
+    "git.autoRepositoryDetection": false
+}
