@@ -13,19 +13,25 @@ env:
 
 jobs:
   test:
-    name: Test ${{ matrix.rust }}
+    name: Test (${{ matrix.os }}) - Rust ${{ matrix.rust }}
+    needs: [fmt, check]
     strategy:
+      fail-fast: false
       matrix:
         rust:
           - nightly
           - beta
           - stable
+        os:
+          - ubuntu-latest
+          - macos-11
+          - windows-latest
 
         include:
           - rust: nightly
             benches: true
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
       # Checkout the repository
@@ -33,18 +39,15 @@ jobs:
 
       # Install Rust toolchain
       - name: Install Rust (${{ matrix.rust }})
-        uses: dtolnay/rust-toolchain@master
+        uses: actions-rs/toolchain@v1
         with:
+          profile: minimal
           toolchain: ${{ matrix.rust }}
 
-      # Execute tests
-      - name: Test
-        run: cargo test
-
-      # Execute benchmarks
-      - name: Test all benches
-        if: matrix.benches
-        run: cargo test --benches ${{ matrix.features }}
+      # Execute cargo test
+      - name: Run cargo test
+        run: |
+          cargo test --color always
 
 
   check-license:
@@ -99,7 +102,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-10.15
+          - macos-11
           - windows-latest
     steps:
       # Checkout the repository
@@ -119,7 +122,7 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v4
+          key: ${{ runner.os }}-rustc-v1
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
