@@ -1,0 +1,10 @@
+# Documentation
+# https://help.github.com/en/articles/about-code-owners
+
+
+# Code Owners
+* @sydo26
+
+# Workflow Owners
+./workflows/* @sydo26
+
