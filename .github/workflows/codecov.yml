@@ -1,8 +1,6 @@
 name: Code Coverage
 on:
   pull_request:
-  push:
-
 
 jobs:
   publish-coverage:
@@ -10,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
