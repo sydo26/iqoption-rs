@@ -5,8 +5,11 @@ on:
 
 
 jobs:
-  publush-coverage:
-    - name: Upload coverage reports to Codecov
+  publish-coverage:
+    name: Publish coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
