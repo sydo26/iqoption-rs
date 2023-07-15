@@ -25,6 +25,9 @@ authors = ["sydo26 <sydoafk@gmail.com>"]
 members = ["bin/hooks/*"]
 
 [dependencies]
+tokio = { version = "1.29.1", features = [
+    "test-util",
+] }
 
 [dev-dependencies]
 rusty-hook = "^0.11.2"
