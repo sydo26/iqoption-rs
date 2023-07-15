@@ -8,14 +8,12 @@ keywords = ["iq", "option", "rust", "api", "wrapper", "iqoption-rs", "library", 
 description = """
 A scrapper that abstracts the IQ Option API calls into a Rust package.
 """
-exclude = [
-    ".gitignore",
-    ".gitattributes",
-    "rustfmt.toml",
-    ".github",
-    ".git",
-    "target",
-    "bin",
+include = [
+    "Cargo.toml",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "README.md",
+    "src/**/*"
 ]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
@@ -27,7 +25,22 @@ authors = ["sydo26 <sydoafk@gmail.com>"]
 members = ["bin/hooks/*"]
 
 [dependencies]
-
+tokio = { version = "1.29.1", features = [
+    "test-util",
+] }
 
 [dev-dependencies]
 rusty-hook = "^0.11.2"
+tokio = { version = "1.29.1", features = ["full"] }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+
+
+
+# Only Examples
+
+[[example]]
+name = "signin"
+path = "examples/signin.rs"
