@@ -49,8 +49,15 @@ impl IQOptionClient {
     }
 
     /// Connect to IQOption API with credentials.
-    pub fn connect(&self) -> Result<(), Box<dyn std::error::Error>> {
-        unimplemented!("Not implemented yet")
+    pub async fn connect(self) -> Result<Self, Box<dyn std::error::Error>> {
+        if self.credentials.identification.is_none() {
+            panic!("Identification is not specified");
+        } else if self.credentials.password.is_none() {
+            panic!("Password is not specified");
+        }
+
+        // TODO: Implement connection to IQOption API
+        Ok(self)
     }
 }
 
@@ -86,11 +93,38 @@ mod tests {
         assert_eq!(IQOptionClient::default().enviroment, Enviroment::Simple);
     }
 
-    #[test]
+    #[tokio::test]
     #[should_panic]
-    fn test_connect() {
+    async fn test_connect_without_all_credentials() {
         let client = IQOptionClient::default();
 
-        assert!(client.connect().is_err());
+        client.connect().await.unwrap();
+    }
+
+    #[tokio::test]
+    #[should_panic(expected = "Identification is not specified")]
+    async fn test_connect_without_identification() {
+        let client = IQOptionClient::default().password("test");
+
+        client.connect().await.unwrap();
+    }
+
+    #[tokio::test]
+    #[should_panic(expected = "Password is not specified")]
+    async fn test_connect_without_password() {
+        let client = IQOptionClient::default().identification("test");
+
+        client.connect().await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_success_connect() {
+        let client = IQOptionClient::default()
+            .identification("test")
+            .password("test");
+
+        let result = client.connect().await;
+
+        assert!(result.is_ok());
     }
 }
