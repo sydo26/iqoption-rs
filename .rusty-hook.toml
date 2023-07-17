@@ -1,5 +1,5 @@
 [hooks]
-pre-commit = "cargo run -p pre-commit"
+pre-commit = "cargo run --bin pre-commit"
 
 [logging]
 verbose = true
