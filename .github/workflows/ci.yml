@@ -126,7 +126,7 @@ jobs:
           - windows-latest
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Install rust toolchain
       - name: Install Rust
