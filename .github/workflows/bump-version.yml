@@ -47,7 +47,7 @@ jobs:
       - name: Create Version Branch
         run: |
           VERSION_NAME=$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
-          BRANCH_NAME=$(echo $VERSION_NAME | sed 's/\./-/g')
+          BRANCH_NAME=v$(echo $VERSION_NAME)
           git checkout -b $BRANCH_NAME
 
       - name: Commit version
@@ -60,7 +60,7 @@ jobs:
           git tag -a "v${VERSION_NAME}" -m "v${VERSION_NAME}"
 
       - name: Push latest version
-        run: git push -u origin $BRANCH_NAME --follow-tags
+        run: git push --set-upstream origin $BRANCH_NAME --follow-tags
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
