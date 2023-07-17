@@ -62,7 +62,6 @@ jobs:
           VERSION_NAME=$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
           BRANCH_NAME=v$(echo $VERSION_NAME)
           git branch -M $OLD_BRANCH_NAME $BRANCH_NAME
-          git checkout -b $BRANCH_NAME
 
       - name: Create tag for version
         run: |
