@@ -30,6 +30,8 @@ jobs:
         with:
           path: |
             ~/.cargo/
+            target
+            Cargo.lock
           key: bump-version-rust
 
       - name: Install Rust (Stable)
@@ -60,13 +62,15 @@ jobs:
           git tag -a "v${VERSION_NAME}" -m "v${VERSION_NAME}"
 
       - name: Push latest version
-        run: git push --set-upstream origin $BRANCH_NAME --follow-tags
+        run: git push --set-upstream origin $BRANCH_NAME:$BRANCH_NAME --follow-tags
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: $BRANCH_NAME
+          assignees: sydo26
+          reviewers: sydo26
           title: Bump version to ${VERSION_NAME}
           body: |
             This PR bumps the version to ${VERSION_NAME}.
