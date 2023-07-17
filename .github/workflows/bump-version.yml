@@ -1,0 +1,58 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Semver type of new version (major / minor / patch)"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Setup Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+          key: bump-version-rust
+
+      - name: Install Rust (Stable)
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Install cargo set version
+        run: cargo install cargo-bump
+
+      - name: Bump version
+        run: cargo set-version --locked --workspace --bump ${{ github.event.inputs.version }}
+
+      - name: Commit version
+        run: |
+          git add .
+          git commit -m "Bump version with ${{ github.event.inputs.version }} option"
+
+      - name: Create tag for version
+        run: |
+          METADATA_VERSION=$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
+          git tag -a "v${METADATA_VERSION}" -m "v${METADATA_VERSION}"
+
+      - name: Push latest version
+        run: git push origin main --follow-tags
