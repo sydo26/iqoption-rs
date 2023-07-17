@@ -1,0 +1,26 @@
+# Called when a new tag and release is created
+
+on:
+  release:
+    types: [created]
+    tags:
+      - v*
+
+name: Publish Crate
+
+jobs:
+  # Publish in crates.io with the tag
+  publish:
+    name: Publish in Crates
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+
+      # Publish in crates.io
+      - name: Publish
+        uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          token: ${{ secrets.CRATES_IO_TOKEN }}
+          args: --allow-dirty --no-verify
