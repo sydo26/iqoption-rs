@@ -38,8 +38,8 @@ jobs:
           profile: minimal
           toolchain: stable
 
-      - name: Install cargo set version
-        run: cargo install cargo-bump
+      - name: Install cargo edit
+        run: cargo install cargo-edit
 
       - name: Bump version
         run: cargo set-version --locked --workspace --bump ${{ github.event.inputs.version }}
