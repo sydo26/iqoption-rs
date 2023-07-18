@@ -17,18 +17,25 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v3
 
-      # Login in crates.io
-      - name: Login
-        uses: actions-rs/cargo@v1
+      - uses: actions/cache@v2
         with:
-          command: login
-          toolchain: stable
-          args: ${{ secrets.CRATES_IO_TOKEN }}
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-publish-crates
 
-      # Publish in crates.io
-      - name: Publish
-        uses: actions-rs/cargo@v1
-        with:
-          command: publish
-          toolchain: stable
-          args: --allow-dirty --no-verify
+      - name: Install cargo-mono
+        continue-on-error: true
+        run: |
+          cargo install cargo-mono
+
+      - name: Login
+        run: |
+          cargo login ${{ secrets.CRATES_IO_TOKEN }}
+
+      - name: Publish crates
+        run: |
+          cargo mono publish
