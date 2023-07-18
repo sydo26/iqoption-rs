@@ -46,10 +46,10 @@ jobs:
       - name: Bump version
         run: |
           cargo set-version --locked --workspace --bump ${{ github.event.inputs.version }}
-          VERSION_NAME=v$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
+          echo "VERSION_NAME=v$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')" >> $GITHUB_ENV
 
       - name: Create Pull Request to main
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Bump version to $VERSION_NAME
