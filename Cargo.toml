@@ -1,7 +1,7 @@
 
 [package]
 name = "iqoption-rs"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 categories = ["api-bindings"]
 keywords = ["iqoption", "scrapper", "api", "trading", "automation"]
