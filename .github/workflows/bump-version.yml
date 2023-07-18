@@ -25,12 +25,6 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Create new branch
-        run: |
-          OLD_VERSION=$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
-          OLD_BRANCH_NAME=bump-${OLD_VERSION}-with-${{ github.event.inputs.version }}
-          git checkout -b $OLD_BRANCH_NAME
-
       - name: Cache
         uses: actions/cache@v3
         with:
@@ -50,22 +44,17 @@ jobs:
         run: cargo install cargo-edit
 
       - name: Bump version
-        run: cargo set-version --locked --workspace --bump ${{ github.event.inputs.version }}
-
-      - name: Commit version
         run: |
-          git add .
-          git commit -m "Bump version with ${{ github.event.inputs.version }} option"
+          cargo set-version --locked --workspace --bump ${{ github.event.inputs.version }}
+          VERSION_NAME=v$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
 
-      - name: Create Version Branch
-        run: |
-          VERSION_NAME=$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "iqoption-rs") | .version')
-          BRANCH_NAME=v$(echo $VERSION_NAME)
-          git branch -M $OLD_BRANCH_NAME $BRANCH_NAME
-
-      - name: Create tag for version
-        run: |
-          git tag -a "v${VERSION_NAME}" -m "v${VERSION_NAME}"
-
-      - name: Push latest version
-        run: git push --set-upstream origin $BRANCH_NAME:$BRANCH_NAME --follow-tags
+      - name: Create Pull Request to main
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Bump version to ${VERSION_NAME}"
+          title: "Bump version to ${VERSION_NAME}"
+          body: "Bump version to ${VERSION_NAME}"
+          branch: "${VERSION_NAME}"
+          base: "main"
+          delete-branch: false
