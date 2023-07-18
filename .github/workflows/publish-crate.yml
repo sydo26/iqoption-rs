@@ -22,5 +22,5 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: publish
-          token: ${{ secrets.CRATES_IO_TOKEN }}
-          args: --allow-dirty --no-verify
+          toolchain: stable
+          args: --token ${{ secrets.CRATES_IO_TOKEN }} --allow-dirty --no-verify
