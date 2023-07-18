@@ -17,10 +17,18 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v3
 
+      # Login in crates.io
+      - name: Login
+        uses: actions-rs/cargo@v1
+        with:
+          command: login
+          toolchain: stable
+          args: ${{ secrets.CRATES_IO_TOKEN }}
+
       # Publish in crates.io
       - name: Publish
         uses: actions-rs/cargo@v1
         with:
           command: publish
           toolchain: stable
-          args: --token ${{ secrets.CRATES_IO_TOKEN }} --allow-dirty --no-verify
+          args: --allow-dirty --no-verify
