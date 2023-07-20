@@ -1,4 +1,4 @@
-use crate::{Credentials, Enviroment, IQOptionClient, Session};
+use crate::{errors::IQOptionError, Credentials, Enviroment, IQOptionClient, Session};
 
 /// Builder for IQOption Client
 pub struct IQOptionBuilder {
@@ -52,11 +52,21 @@ impl IQOptionBuilder {
 
     /// Build IQOption Client.
     #[inline]
-    pub async fn build(self) -> Result<IQOptionClient, Box<dyn std::error::Error>> {
+    pub async fn build(self) -> Result<IQOptionClient, IQOptionError> {
         if self.credentials.identification.is_none() {
-            panic!("Identification is not specified");
+            return Err(IQOptionError::EmptyCredentials {
+                message: format!(
+                    "Identification is not specified: \"{}\"",
+                    self.credentials.identification.unwrap_or("".to_string())
+                ),
+            });
         } else if self.credentials.password.is_none() {
-            panic!("Password is not specified");
+            return Err(IQOptionError::EmptyCredentials {
+                message: format!(
+                    "Password is not specified: \"{}\"",
+                    self.credentials.password.unwrap_or("".to_string())
+                ),
+            });
         }
 
         // SignIn to IQOption API
@@ -103,8 +113,8 @@ mod tests {
     }
 
     #[tokio::test]
-    #[should_panic]
-    async fn test_connect_without_all_credentials() {
+    #[should_panic(expected = "Identification is not specified")]
+    async fn test_connect_without_credentials() {
         IQOptionBuilder::default().build().await.unwrap();
     }
 

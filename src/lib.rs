@@ -3,6 +3,7 @@ mod client;
 mod credentials;
 mod dtos;
 mod enviroment;
+pub mod errors;
 mod session;
 
 pub use builder::IQOptionBuilder;
