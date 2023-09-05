@@ -35,7 +35,7 @@ jobs:
 
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Use cache to speed up builds
       - name: Cache
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Use cache to speed up builds
       - name: Cache
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Install Rust toolchain
       - name: Install Rust
@@ -126,7 +126,7 @@ jobs:
           - windows-latest
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Install rust toolchain
       - name: Install Rust
@@ -153,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Get MSRV from package metadata
       - name: Get MSRV from package metadata
